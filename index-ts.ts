@@ -30,7 +30,16 @@ let walletClient: WalletClient;
 let publicClient: PublicClient;
 
 async function connect(): Promise<string | void> {
-  if (typeof window.ethereum !== "undefined") {
+  if (typeof window.ethereum === "undefined") {
+    connectButton.innerHTML = "Please install MetaMask!";
+    return;
+  }
+  if (walletClient) {
+    const [connectedAccount] = await walletClient.requestAddresses();
+    connectButton.innerHTML = "Connected!";
+    return connectedAccount;
+  }
+  if (typeof window.ethereum !== "undefined" && !walletClient) {
     walletClient = createWalletClient({
       transport: custom(window.ethereum),
     });
