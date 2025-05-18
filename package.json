@@ -1,0 +1,22 @@
+{
+  "name": "html-ts-coffee-cu",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "dev": "vite",
+    "anvil": "anvil --load-state fundme-anvil.json",
+    "format": "prettier --write .",
+    "compile": "tsc --project tsconfig.json "
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.11.0",
+  "devDependencies": {
+    "typescript": "^5.8.3",
+    "vite": "^6.3.5"
+  },
+  "dependencies": {
+    "viem": "^2.29.4"
+  }
+}
