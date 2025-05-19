@@ -13,6 +13,7 @@ const fundButton = document.getElementById("fundButton");
 const ethAmountInput = document.getElementById("ethAmount");
 const balanceButton = document.getElementById("balanceButton");
 const withdrawButton = document.getElementById("withdrawButton");
+const showTotalFundedButton = document.getElementById("showTotalFunded");
 
 let walletClient;
 let publicClient;
@@ -101,6 +102,24 @@ async function withdraw() {
   console.log("hash", hash);
 }
 
+async function getTotalFounded() {
+  const connectedAccount = await connect();
+
+  if (!window.ethereum || !connectedAccount) return;
+  publicClient = createPublicClient({
+    transport: custom(window.ethereum),
+  });
+
+  const data = await publicClient.readContract({
+    address: contractAddress,
+    abi: coffeeAbi,
+    functionName: "getAddressToAmountFunded",
+    args: [connectedAccount],
+  });
+
+  console.log(`Total funded by your address: ${formatEther(data)} ETH`);
+}
+
 async function getCurrentChain(client) {
   const chainId = await client.getChainId();
   const currentChain = defineChain({
@@ -124,3 +143,4 @@ connectButton.onclick = connect;
 fundButton.onclick = fund;
 balanceButton.onclick = getBalance;
 withdrawButton.onclick = withdraw;
+showTotalFundedButton.onclick = getTotalFounded;
